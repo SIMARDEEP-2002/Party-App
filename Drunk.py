@@ -55,10 +55,10 @@ def create_collage(images, names, image_size=(250, 250), max_images_per_row=3, s
         return None
 
     # Resize all images to the fixed size
-    resized_images = [image.resize(image_size, Image.ANTIALIAS) for image in images]
+    
 
     # Calculate collage size
-    num_rows = (len(resized_images) + max_images_per_row - 1) // max_images_per_row
+    num_rows = (len(images) + max_images_per_row - 1) // max_images_per_row
     collage_width = max_images_per_row * (image_size[0] + spacing) - spacing
     collage_height = num_rows * (image_size[1] + spacing) - spacing
 
