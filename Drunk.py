@@ -2,6 +2,7 @@ import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
 import json
 import time
+import os
 
 # Constants for local storage
 IMAGE_DIR = 'Image'
