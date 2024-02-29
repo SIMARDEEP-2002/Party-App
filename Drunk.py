@@ -140,7 +140,7 @@ page = st.sidebar.radio("Navigation", ['View Collage', 'Upload Image'], index=0)
 
 if page == 'Upload Image':
     # Upload logic
-    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg"])
     name = st.text_input("Enter the person's name:")
     if st.button('Submit') and uploaded_file and name:
         image = Image.open(uploaded_file)
