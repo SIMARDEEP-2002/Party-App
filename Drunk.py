@@ -31,14 +31,23 @@ def load_saved_data():
     return images, names
 
 # Function to resize an image
-def resize_image(image, max_width=1200):
-    """Resize the image to a max width while maintaining aspect ratio."""
+def resize_image(image, max_size=(1200, 1200)):
     original_width, original_height = image.size
-    if original_width <= max_width:
-        return image  # Return original image if no resizing is needed
-    else:
-        height = int((max_width / original_width) * original_height)
-        return image.resize((max_width, height), Image.ANTIALIAS)
+    max_width, max_height = max_size
+
+    # Determine the scale factor while maintaining the aspect ratio
+    width_ratio = min(max_width / original_width, 1)
+    height_ratio = min(max_height / original_height, 1)
+    scale_ratio = min(width_ratio, height_ratio)
+
+    # Calculate the new image dimensions
+    new_width = int(original_width * scale_ratio)
+    new_height = int(original_height * scale_ratio)
+
+    # Resize the image
+    resized_image = image.resize((new_width, new_height), Image.LANCZOS)  # Use LANCZOS for high-quality downsampling
+
+    return resized_image
 
 # Function to create a collage with adjusted spacing and text size
 def create_collage(images, names, image_size=(250, 250), max_images_per_row=3, spacing=10):
