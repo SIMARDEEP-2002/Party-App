@@ -1,8 +1,8 @@
 import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
+import os
 import json
 import time
-import os
 
 # Constants for local storage
 IMAGE_DIR = 'Image'
@@ -55,7 +55,7 @@ def create_collage(images, names, image_size=(250, 250), max_images_per_row=3, s
         return None
 
     # Resize all images to the fixed size
-    resized_images = [image.resize(image_size,Image.LANCZOS) for image in images]
+    resized_images = [image.resize(image_size, Image.ANTIALIAS) for image in images]
 
     # Calculate collage size
     num_rows = (len(resized_images) + max_images_per_row - 1) // max_images_per_row
