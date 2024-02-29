@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image, ImageDraw, ImageFont,ImageResampling
+from PIL import Image, ImageDraw, ImageFont
 import os
 import json
 import time
