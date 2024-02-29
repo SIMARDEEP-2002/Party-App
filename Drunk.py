@@ -5,7 +5,7 @@ import json
 import time
 
 # Constants for local storage
-IMAGE_DIR = 'Image'
+IMAGE_DIR = 'DrunkImage'
 METADATA_FILE = os.path.join(IMAGE_DIR, 'metadata.json')
 
 # Ensure the image directory exists
