@@ -65,7 +65,7 @@ def create_collage(images, names, image_size=(250, 250), max_images_per_row=3, s
     # Create the collage image
     collage = Image.new('RGB', (collage_width, collage_height), "white")
     draw = ImageDraw.Draw(collage)
-    font = ImageFont.truetype("arial.ttf", 20) 
+    font = ImageFont.load_default()
 
     for i, image in enumerate(resized_images):
         row = i // max_images_per_row
