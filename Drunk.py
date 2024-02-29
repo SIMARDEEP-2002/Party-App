@@ -31,7 +31,7 @@ def load_saved_data():
     return images, names
 
 # Function to resize an image
-def resize_image(image, max_size=(1200, 1200)):
+def resize_image(image, max_size=(250, 250)):
     original_width, original_height = image.size
     max_width, max_height = max_size
 
