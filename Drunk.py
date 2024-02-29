@@ -67,7 +67,7 @@ def create_collage(images, names, image_size=(250, 250), max_images_per_row=3, s
     draw = ImageDraw.Draw(collage)
     font = ImageFont.load_default()
 
-    for i, image in enumerate(resized_images):
+    for i, image in enumerate(images):
         row = i // max_images_per_row
         col = i % max_images_per_row
         x = col * (image_size[0] + spacing)
