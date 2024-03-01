@@ -31,25 +31,9 @@ def load_saved_data():
     return images, names
 
 # Function to resize an image
-def correct_image_orientation(image):
-    try:
-        for orientation in ExifTags.TAGS.keys():
-            if ExifTags.TAGS[orientation] == 'Orientation':
-                break
-        exif = dict(image._getexif().items())
 
-        if exif[orientation] == 3:
-            image = image.rotate(180, expand=True)
-        elif exif[orientation] == 6:
-            image = image.rotate(270, expand=True)
-        elif exif[orientation] == 8:
-            image = image.rotate(90, expand=True)
-    except (AttributeError, KeyError, IndexError):
-        # cases: image doesn't have getexif
-        pass
-    return image
 def resize_image(image, max_size=(250, 250)):
-    image = correct_image_orientation(image)
+
     original_width, original_height = image.size
     max_width, max_height = max_size
 
