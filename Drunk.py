@@ -31,7 +31,25 @@ def load_saved_data():
     return images, names
 
 # Function to resize an image
+def correct_image_orientation(image):
+    try:
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = dict(image._getexif().items())
+
+        if exif[orientation] == 3:
+            image = image.rotate(180, expand=True)
+        elif exif[orientation] == 6:
+            image = image.rotate(270, expand=True)
+        elif exif[orientation] == 8:
+            image = image.rotate(90, expand=True)
+    except (AttributeError, KeyError, IndexError):
+        # cases: image doesn't have getexif
+        pass
+    return image
 def resize_image(image, max_size=(250, 250)):
+    image = correct_image_orientation(image)
     original_width, original_height = image.size
     max_width, max_height = max_size
 
@@ -49,42 +67,29 @@ def resize_image(image, max_size=(250, 250)):
 
     return resized_image
 
-# Function to create a collage with adjusted spacing and text size
+# Function to create collage
 def create_collage(images, names, image_size=(250, 250), max_images_per_row=3, spacing=10):
-    """
-    Create a collage of images with fixed size.
-    
-    :param images: List of PIL Image objects.
-    :param names: List of names corresponding to each image.
-    :param image_size: Tuple indicating the width and height of resized images in the collage.
-    :param max_images_per_row: Maximum number of images per row in the collage.
-    :param spacing: Spacing between images in the collage.
-    """
     if not images:
         return None
-
-    # Resize all images to the fixed size
     
+    resized_images = [resize_image(image, image_size) for image in images]  # Ensure images are resized
 
-    # Calculate collage size
-    num_rows = (len(images) + max_images_per_row - 1) // max_images_per_row
+    num_rows = (len(resized_images) + max_images_per_row - 1) // max_images_per_row
     collage_width = max_images_per_row * (image_size[0] + spacing) - spacing
     collage_height = num_rows * (image_size[1] + spacing) - spacing
 
-    # Create the collage image
     collage = Image.new('RGB', (collage_width, collage_height), "white")
     draw = ImageDraw.Draw(collage)
     font = ImageFont.load_default()
 
-    for i, image in enumerate(images):
+    for i, image in enumerate(resized_images):
         row = i // max_images_per_row
         col = i % max_images_per_row
         x = col * (image_size[0] + spacing)
         y = row * (image_size[1] + spacing)
         collage.paste(image, (x, y))
-        # Adjust text placement below each image
         text_x = x
-        text_y = y + image_size[1] + 5  # Adjust as necessary
+        text_y = y + image_size[1] + 5
         draw.text((text_x, text_y), names[i], fill="black", font=font)
 
     return collage
